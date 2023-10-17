@@ -36,7 +36,7 @@ services:
 
     webserver:
         image: nginx:alpine
-        container_name: articles-nginxe
+        container_name: articles-nginx
         restart: unless-stopped
         ports:
             - 8000:80
