@@ -23,11 +23,11 @@ class Article extends Model
     }
 
     /**
-     * @return HasOne
+     * @return BelongsTo
      */
-    public function image(): HasOne
+    public function image(): BelongsTo
     {
-        return $this->hasOne(Image::class);
+        return $this->belongsTo(Image::class);
     }
     /**
      * @return HasMany

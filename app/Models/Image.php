@@ -11,10 +11,10 @@ class Image extends Model
     use HasFactory;
 
     /**
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function article(): BelongsTo
+    public function article(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->belongsTo(Article::class);
+        return $this->hasOne(Article::class);
     }
 }
