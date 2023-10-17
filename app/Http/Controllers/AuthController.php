@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostLoginRequest;
 use App\Http\Requests\PostRegistrationRequest;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
@@ -17,18 +17,18 @@ use Illuminate\Support\Facades\Session;
 class AuthController extends Controller
 {
     /**
-     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      */
-    public function index(): View|\Illuminate\Foundation\Application|Factory|Application
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('auth.login');
     }
 
 
     /**
-     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      */
-    public function registration(): View|\Illuminate\Foundation\Application|Factory|Application
+    public function registration(): View|\Illuminate\Foundation\Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('auth.registration');
     }
@@ -38,7 +38,7 @@ class AuthController extends Controller
      * @param PostLoginRequest $request
      * @return mixed
      */
-    public function postLogin(PostLoginRequest $request)
+    public function postLogin(PostLoginRequest $request): mixed
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
@@ -63,9 +63,9 @@ class AuthController extends Controller
 
 
     /**
-     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     * @return Application|View|Factory|\Illuminate\Contracts\Foundation\Application|RedirectResponse
      */
-    public function dashboard(): \Illuminate\Foundation\Application|View|Factory|Application
+    public function dashboard(): Application|View|Factory|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         if (Auth::check()) {
             return view('dashboard');
@@ -78,7 +78,7 @@ class AuthController extends Controller
      * @param array $data
      * @return mixed
      */
-    public function create(array $data)
+    public function create(array $data): mixed
     {
         return User::create([
             'name' => $data['name'],
@@ -89,9 +89,9 @@ class AuthController extends Controller
 
 
     /**
-     * @return \Illuminate\Foundation\Application|Redirector|RedirectResponse|Application
+     * @return Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
      */
-    public function logout(): \Illuminate\Foundation\Application|Redirector|RedirectResponse|Application
+    public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         Session::flush();
         Auth::logout();
