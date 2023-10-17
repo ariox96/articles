@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('title');
             $table->text('content');
+            $table->unsignedBigInteger('image_id')->nullable();
+            $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
             $table->tinyInteger('status');
             $table->timestamp('published_at');
             $table->timestamps();
