@@ -20,13 +20,23 @@ class ArticleFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::query()->inRandomOrder()->first();
+        if (!$user) {
+            $user = User::factory()->create();
+        }
+
+        $image = Image::query()->inRandomOrder()->first();
+        if (!$image) {
+            $image = Image::factory()->create();
+        }
+
         $array = array_column(ArticleStatusEnum::cases(), 'value');
         return [
-            'user_id' => User::query()->inRandomOrder()->first()->id,
+            'user_id' => $user->id,
             'slug' => fake()->unique()->slug,
             'title' => fake()->title,
             'content' => fake()->title,
-            'image_id' => Image::query()->inRandomOrder()->first()->id,
+            'image_id' => $image->id,
             'status' => $this->faker->randomElement($array),
             'published_at' => now(),
             'created_at' => now(),
