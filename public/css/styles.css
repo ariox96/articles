@@ -1,0 +1,8 @@
+.article-image {
+    object-fit: cover;
+    max-height: 250px;
+}
+
+.card-image {
+    height: 250px;
+}
