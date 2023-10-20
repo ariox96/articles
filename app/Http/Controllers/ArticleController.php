@@ -11,7 +11,7 @@ class ArticleController extends Controller
     //
     public function index()
     {
-        $articles = Article::where('user_id', Auth::id())->with('image')->get();
+        $articles = Article::where('user_id', Auth::id())->paginate(8);
         return view('article.index', compact('articles'));
     }
 

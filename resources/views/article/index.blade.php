@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <button type="button" class="btn btn-primary">write article</button>
+        @if($articles->items())
         <div class="row">
-            @if($articles->toArray())
                 @foreach($articles as $article)
                     <div class="col-6 col-lg-6 p-2">
                         <a href="{{route('article.show',$article->slug)}}">
@@ -20,11 +20,15 @@
                                     <p class="card-text"><small class="text-muted">{{$article->published_at}}</small>
                                     </p>
                                     <p class="card-text"><small class="text-muted">{{auth()->user()->name}}</small></p>
+                                    <p class="card-text"><small class="text-muted">{{\App\Enums\ArticleStatusEnum::getName($article->status)}}</small></p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 @endforeach
+        </div>
+            {{$articles->links('pagination::bootstrap-4')}}
+
             @else
                 <div class="alert alert-info col-12 m-2"  role="alert">
                     <p class="text-center">
@@ -32,7 +36,7 @@
                     </p>
                 </div>
             @endif
-        </div>
+
     </div>
 @endsection
 
