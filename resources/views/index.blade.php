@@ -22,7 +22,8 @@
                         </div>
                     </div>
                 </a>
-            </div>         <div  class="col-6 col-lg-3 p-2">
+            </div>
+            <div  class="col-6 col-lg-3 p-2">
                 <a href="#">
                     <div class="card ">
                         <div class="card-image">
