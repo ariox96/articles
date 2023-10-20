@@ -15,7 +15,7 @@ class ImageSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Image::truncate();
-        Image::query()->insert(['path' => 'storage/article/image/ArticleDefault.jpg']);
+        Image::query()->insert(['path' => 'ArticleDefault.jpg']);
         Image::factory(50)->create();
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }

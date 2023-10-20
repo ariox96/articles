@@ -6,3 +6,17 @@
 .card-image {
     height: 250px;
 }
+
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* تعداد خط‌های نمایشی */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+}

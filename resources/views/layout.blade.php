@@ -27,6 +27,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('article.index') }}">My Articles</a>
+                    </li>
                 @endguest
             </ul>
 

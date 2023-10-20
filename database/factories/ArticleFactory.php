@@ -34,8 +34,8 @@ class ArticleFactory extends Factory
         return [
             'user_id' => $user->id,
             'slug' => fake()->unique()->slug,
-            'title' => fake()->title,
-            'content' => fake()->title,
+            'title' => fake()->realText(50),
+            'content' => fake()->realText(3000),
             'image_id' => $image->id,
             'status' => $this->faker->randomElement($array),
             'published_at' => now(),
