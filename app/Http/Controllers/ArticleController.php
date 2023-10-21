@@ -88,8 +88,16 @@ class ArticleController extends Controller
         return view('article.show', compact('article'));
     }
 
-    public function edit()
+    /**
+     * @param Article $article
+     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     */
+    public function edit(Article $article): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        if ($article->user_id != Auth::id()) {
+            abort(404);
+        }
+        return view('article.edit', compact('article'));
     }
 
     public function update()
@@ -102,6 +110,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article): \Illuminate\Http\JsonResponse
     {
+        if ($article->user_id != Auth::id()) {
+            abort(404);
+        }
         $article->delete();
         return response()->json([
             'status' => true,

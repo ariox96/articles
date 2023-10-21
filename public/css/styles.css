@@ -19,6 +19,14 @@
     max-height: 7.4em;
 }
 
+.delete-file{
+    cursor: pointer;
+    padding: 2px;
+}
+
+.delete-file:hover {
+    background-color: #a2a2a2;
+}
 
 
 

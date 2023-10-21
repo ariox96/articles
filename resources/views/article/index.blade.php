@@ -29,7 +29,8 @@
                             </div>
                         </a>
                         <div class="m-2">
-                            <button type="button" class="btn btn-success">Edit</button>
+                            <a class="btn btn-success" href="{{route('article.edit',$article->slug)}}" target="_blank"
+                               role="button">Edit</a>
                             <button id="deleteArticle" articleSlug="{{$article->slug}}" type="button"
                                     class="btn btn-danger">Delete
                             </button>
@@ -59,7 +60,7 @@
                 var routeUrl = '{{ route("article.destroy", ":articleSlug") }}';
                 routeUrl = routeUrl.replace(':articleSlug', articleSlug);
 
-                var proceed = confirm("Are you sure you want to proceed?");
+                var proceed = confirm("Are you sure you want to delete?");
                 if (proceed) {
                     $.ajax({
                         url: routeUrl,
