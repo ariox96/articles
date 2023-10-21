@@ -12,7 +12,7 @@
                             <div class="card">
                                 <div class="card-image">
                                     <img
-                                        src="{{$article->image?->path ?? '/ArticleDefault.jpg'}}"
+                                        src="/{{$article->image?->path ?? 'ArticleDefault.jpg'}}"
                                         class="card-img-top article-image">
                                 </div>
                                 <div class="card-body">

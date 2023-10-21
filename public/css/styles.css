@@ -14,13 +14,71 @@
 }
 
 .card-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* تعداد خط‌های نمایشی */
-    -webkit-box-orient: vertical;
     overflow: hidden;
+    line-height: 1.2em;
+    max-height: 7.4em;
 }
 
-.create-textarea {
-    /*resize: none !important;*/
-    /*height: 200px;*/
+
+
+
+
+
+
+
+
+/*
+Needed to overwrite some of the default bootstrap css.  This works differently when writing 'local' since one can use multiple online bootstrap 'customizers' who end up giving a slightly custom version of bootstrap, which can, for example, have the right color palette already present in the bootstrap.css.
+
+Still fiddling around to underdtand all this, it's my first bootstrap page - following the freeCodeCamp syllabus.
+*/
+.container-fluid {
+    padding-top: 2em;
+}
+
+.my-row {
+    margin-top: 2em;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+    color: #0A0908;
+    background-color: #e2dbd1;
+    font-size: 15px;
+}
+
+.my-row2 {
+    margin-top: 4em;
+}
+
+hr {
+    display: block;
+    /* height: 1px; */
+    border: 0;
+    /*border-top: 3px double #0A0908;*/
+    margin: 1em 0;
+    padding: 0;
+
+    height: 10px;
+
+    box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+
+.jumbotron {
+    background-color: #EAE0D5;
+}
+
+.container {
+    background-color: #ffffff;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding: 2em;
+    margin-bottom: 1em;
+    border-radius: 10px;
+}
+
+.container p {
+
+    font-size: 1.1em;
 }

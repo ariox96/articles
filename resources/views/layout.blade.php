@@ -35,6 +35,10 @@
                         <a class="nav-link" href="{{ route('article.index') }}/">My Articles</a>
                     </li>
                 @endguest
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('index') }}/">Articles</a>
+                </li>
             </ul>
 
         </div>

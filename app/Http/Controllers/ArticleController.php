@@ -7,20 +7,22 @@ use App\Http\Requests\ArticleStoreRequest;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
     //
-    public function index()
+    /**
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
+    public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $articles = Article::query()->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->paginate(8);
-//        dd($articles);
         return view('article.index', compact('articles'));
     }
 
@@ -58,19 +60,30 @@ class ArticleController extends Controller
         $article['title'] = $request['title'];
         $article['content'] = $request['content'];
         $article['status'] = $request['status'];
-        if ($request['status'] == ArticleStatusEnum::STATUS_PUBLISHED) {
+        if ($request['status'] == ArticleStatusEnum::STATUS_PUBLISHED->value) {
             $article['published_at'] = now();
         }
         $article = Article::query()->create($article);
         foreach ($files as $key => $file) {
-            $files[$key] = ['article_id' => $article->id, 'path' => $file];
+            $files[$key] = [
+                'article_id' => $article->id,
+                'path' => $file,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
         }
         File::query()->insert($files);
         return redirect()->route('article.index');
     }
 
-    public function show()
+    /**
+     * @param Article $article
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
+    public function show(Article $article): \Illuminate\Foundation\Application|View|Factory|Application
     {
+        $article->files;
+        return view('article.show', compact('article'));
     }
 
     public function edit()

@@ -19,6 +19,8 @@ class Article extends Model
     use Sluggable;
 
     protected $with = ['image'];
+    public $timestamps = true;
+
     protected $fillable = ['user_id', 'slug', 'title', 'content', 'status', 'image_id', 'published_at'];
 
 
@@ -52,6 +54,13 @@ class Article extends Model
         return $this->belongsTo(Image::class);
     }
 
+    /**
+     * @return string
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
     /**
      * @return HasMany
      */

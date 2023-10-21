@@ -10,6 +10,8 @@ class File extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     protected $fillable = ['path', 'article_id'];
 
     /**
