@@ -4,6 +4,9 @@
     <title>Articles</title>
     <link rel="stylesheet" href="{{asset("css/bootstrap.min.css")}}">
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+    <script src="{{ asset('/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
 </head>
 <body>
 
@@ -29,7 +32,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('article.index') }}">My Articles</a>
+                        <a class="nav-link" href="{{ route('article.index') }}/">My Articles</a>
                     </li>
                 @endguest
             </ul>
@@ -42,3 +45,5 @@
 
 </body>
 </html>
+
+@yield('script')

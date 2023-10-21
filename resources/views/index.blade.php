@@ -15,7 +15,7 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title" style="color: #1a202c">{{$article->title}}</h5>
-                                <p class="card-text" style="color: #1a202c">{{$article->content}}</p>
+                                <div class="card-text" style="color: #1a202c">{!!$article->content!!}</div>
                                 <p class="card-text"><small class="text-muted">{{$article->published_at}}</small>
                                 </p>
                                 <p class="card-text"><small class="text-muted">{{$article->user->name}}</small></p>

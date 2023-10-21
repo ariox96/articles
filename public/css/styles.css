@@ -18,5 +18,9 @@
     -webkit-line-clamp: 2; /* تعداد خط‌های نمایشی */
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
 
+.create-textarea {
+    /*resize: none !important;*/
+    /*height: 200px;*/
 }

@@ -10,6 +10,8 @@ class File extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['path', 'article_id'];
+
     /**
      * @return BelongsTo
      */
