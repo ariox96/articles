@@ -11,18 +11,20 @@
         </div>
     @endif
     <div class="container mb-5">
-        <form action="{{route('article.update',$article->slug)}}" method="POST" id="createForm" role="form"
+        <form action="{{route('article.update',$article->slug)}}" method="post" id="createForm" role="form"
               class="form-horizontal"
               enctype="multipart/form-data">
             @csrf
+            <input type="hidden" name="_method" value="put" />
+            <input type="hidden" name="id" value="{{$article->id}}" />
 
             <div class="row my-row" style="width: 200px">
-
                 <img style="width: 100%" src="/{{$article->image?->path ?? 'ArticleDefault.jpg'}}"
                      class="img-rounded img-responsive center-block" alt="Image of Hypatia">
             </div>
             <div class="form-group">
-                <label for="articleTitle" class="col-sm-2 control-label">                   {{ __("Title") }}
+                <label for="articleTitle" class="col-sm-2 control-label">
+                    {{ __("Title") }}
                 </label>
                 <input type="text" name="title" value="{{$article->title}}" class="form-control" id="articleTitle"
                        placeholder="Enter title"
@@ -169,7 +171,5 @@
                 }
             }
         });
-
-
     </script>
 @endsection

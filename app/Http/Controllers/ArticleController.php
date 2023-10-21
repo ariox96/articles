@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ArticleStatusEnum;
 use App\Http\Requests\ArticleStoreRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
@@ -12,6 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
@@ -33,30 +35,27 @@ class ArticleController extends Controller
         return view('article.create');
     }
 
-    public function store(ArticleStoreRequest $request)
+    /**
+     * @param ArticleStoreRequest $request
+     * @return RedirectResponse
+     */
+    public function store(ArticleStoreRequest $request): \Illuminate\Http\RedirectResponse
     {
         $image = null;
         $files = [];
-        $id = Auth::id();
+
         if ($request->hasFile('image')) {
-            $uniqid = uniqid();
-            $path = "articleFiles/{$id}/image";
-            $fullPath = $path . "/{$uniqid}.{$request->file('image')->extension()}";
-            $request->file('image')->move(public_path($path), "{$uniqid}.{$request->file('image')->extension()}");
-            $image = $fullPath;
+            $image = $this->saveFile($request->file('image'), 'image');
         }
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                $uniqid = uniqid();
-                $path = "articleFiles/{$id}/files";
-                $fullPath = $path . "/{$uniqid}.{$file->extension()}";
-                $file->move(public_path($path), "{$uniqid}.{$file->extension()}");
-                $files[] = $fullPath;
+                $files[] = $this->saveFile($file, 'files');
             }
         }
         if ($image) {
             $image = Image::query()->create(['path' => $image]);
         }
+
         $article['image_id'] = $image?->id;
         $article['user_id'] = Auth::id();
         $article['title'] = $request['title'];
@@ -76,6 +75,69 @@ class ArticleController extends Controller
         }
         File::query()->insert($files);
         return redirect()->route('article.index');
+    }
+
+
+    /**
+     * @param ArticleUpdateRequest $request
+     * @return RedirectResponse
+     */
+    public function update(ArticleUpdateRequest $request): RedirectResponse
+    {
+        $articleItem = Article::query()->find($request->id);
+        if (!$articleItem || $articleItem?->user_id != Auth::id()) {
+            abort(404);
+        }
+
+        $image = null;
+        $files = [];
+
+        if ($request->hasFile('image')) {
+            $image = $this->saveFile($request->file('image'), 'image');
+        }
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $files[] = $this->saveFile($file, 'files');
+            }
+        }
+
+        if ($image) {
+            $image = Image::query()->create(['path' => $image]);
+            $article['image_id'] = $image?->id;
+        }
+
+        $article['title'] = $request['title'];
+        $article['content'] = $request['content'];
+        $article['status'] = $request['status'];
+        if ($request['status'] == ArticleStatusEnum::STATUS_PUBLISHED->value) {
+            $article['published_at'] = now();
+        }
+        Article::query()->where('id', $request->id)->update($article);
+        foreach ($files as $key => $file) {
+            $files[$key] = [
+                'article_id' => $request->id,
+                'path' => $file,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+        File::query()->insert($files);
+        return redirect()->route('article.show', $articleItem->slug);
+    }
+
+    /**
+     * @param $request
+     * @param $folderName
+     * @return string
+     */
+    private function saveFile($request, $folderName): string
+    {
+        $id = Auth::id();
+        $uniqid = uniqid();
+        $path = "articleFiles/{$id}/$folderName";
+        $fullPath = $path . "/{$uniqid}.{$request->extension()}";
+        $request->move(public_path($path), "{$uniqid}.{$request->extension()}");
+        return $fullPath;
     }
 
     /**
@@ -100,9 +162,6 @@ class ArticleController extends Controller
         return view('article.edit', compact('article'));
     }
 
-    public function update()
-    {
-    }
 
     /**
      * @param Article $article
@@ -117,10 +176,5 @@ class ArticleController extends Controller
         return response()->json([
             'status' => true,
         ], 202);
-    }
-
-    public function delete(Article $article)
-    {
-        dd($article);
     }
 }
