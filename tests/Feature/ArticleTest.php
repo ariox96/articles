@@ -43,8 +43,7 @@ class ArticleTest extends TestCase
 
         $this->actingAs($user)
             ->post(route('article.store'), $attributes)
-            ->assertRedirect(route('dashboard'))
-            ->assertSessionHas('msg.status', 'success');
+            ->assertRedirect(route('article.index'));
 
         $this->assertAuthenticated();
 
@@ -87,21 +86,23 @@ class ArticleTest extends TestCase
         $attributes['id'] = $article->id;
 
         $this->actingAs($user)
-            ->post(route('article.update'), $attributes)
-            ->assertRedirect(route('article.edit', $article->slug));
+            ->put(route('article.update', $article->slug), $attributes)
+            ->assertRedirect(route('article.show', $article->slug));
 
         $this->assertAuthenticated();
     }
 
+    /**
+     * @return void
+     */
     public function test_user_can_destroy_an_article()
     {
         $user = User::factory()->create();
         $article = Article::factory()->create(['user_id' => $user->id]);
 
         $this->actingAs($user)
-            ->delete(route('article.delete', $article->slug))
-            ->assertRedirect(route('dashborad'))
-            ->assertSessionHas('msg.status', 'success');
+            ->delete(route('article.destroy', $article->slug))
+            ->assertStatus(202);
         $this->assertAuthenticated();
     }
 }
