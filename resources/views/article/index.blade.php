@@ -24,9 +24,17 @@
                                     <p class="card-text"><small
                                             class="text-muted">{{\App\Enums\ArticleStatusEnum::getName($article->status)}}</small>
                                     </p>
+
                                 </div>
                             </div>
                         </a>
+                        <div class="m-2">
+                            <button type="button" class="btn btn-success">Edit</button>
+                            <button id="deleteArticle" articleSlug="{{$article->slug}}" type="button"
+                                    class="btn btn-danger">Delete
+                            </button>
+                        </div>
+
                     </div>
                 @endforeach
             </div>
@@ -41,5 +49,38 @@
         @endif
 
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $('#deleteArticle').on('click', function () {
+                var articleSlug = $(this).attr('articleSlug');
+                var routeUrl = '{{ route("article.destroy", ":articleSlug") }}';
+                routeUrl = routeUrl.replace(':articleSlug', articleSlug);
+
+                var proceed = confirm("Are you sure you want to proceed?");
+                if (proceed) {
+                    $.ajax({
+                        url: routeUrl,
+                        type: "DELETE",
+                        timeout: 2000,
+                        async: false, // enable or disable async (optional, but suggested as false if you need to populate data afterwards)
+                        success: function (data, textStatus, jqXHR) {
+                            window.location.reload();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log("jqXHR:" + jqXHR);
+                            console.log("TestStatus: " + textStatus);
+                            console.log("ErrorThrown: " + errorThrown);
+                        }
+                    });
+                } else {
+                    //don't proceed
+                }
+            });
+        });
+
+    </script>
 @endsection
 

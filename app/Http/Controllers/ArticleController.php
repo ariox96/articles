@@ -7,9 +7,11 @@ use App\Http\Requests\ArticleStoreRequest;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
@@ -94,7 +96,20 @@ class ArticleController extends Controller
     {
     }
 
-    public function destroy()
+    /**
+     * @param Article $article
+     * @return JsonResponse
+     */
+    public function destroy(Article $article): \Illuminate\Http\JsonResponse
     {
+        $article->delete();
+        return response()->json([
+            'status' => true,
+        ], 202);
+    }
+
+    public function delete(Article $article)
+    {
+        dd($article);
     }
 }

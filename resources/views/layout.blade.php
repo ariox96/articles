@@ -7,6 +7,16 @@
     <script src="{{ asset('/js/jquery.min.js') }}"></script>
     <script src="{{ asset('/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Add this to script -->
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 </head>
 <body>
 
