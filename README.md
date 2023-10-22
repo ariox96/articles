@@ -17,16 +17,19 @@ Before you get started, ensure you have the following tools installed on your sy
    ```bash
    cd articles
 
-3. **Build and Start Docker Containers:**
+3. **Create .env File:**
+   ```bash
+    cp .env.example .env
+
+4. **Build and Start Docker Containers:**
    ```bash
     docker compose up -d --build
 
-4. **Install Dependencies:**
+5. **Install Dependencies:**
    ```bash
     docker exec -it articles-app composer install
 
-
-5. **Run Migrations and Seed Data:**
+6. **Run Migrations and Seed Data:**
    ```bash
     docker exec -it articles-app php artisan migrate:fresh --seed
 
