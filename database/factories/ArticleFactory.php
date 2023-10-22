@@ -38,6 +38,7 @@ class ArticleFactory extends Factory
             'content' => fake()->realText(3000),
             'image_id' => $image->id,
             'status' => $this->faker->randomElement($array),
+            'author_name' => $user->name,
             'published_at' => now(),
             'created_at' => now(),
         ];

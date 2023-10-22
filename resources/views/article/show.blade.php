@@ -25,7 +25,7 @@
                     @endforeach
                 @endif
                 <p class="card-text"><small class="text-muted">{{$article->published_at}}</small></p>
-                <p class="card-text"><small class="text-muted">{{auth()->user()->name}}</small></p>
+                <p class="card-text"><small class="text-muted">{{$article->author_name}}</small></p>
             </div>
         </div>  <!-- container fluid -->
 

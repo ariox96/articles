@@ -36,7 +36,7 @@ class ArticleTest extends TestCase
             UploadedFile::fake()->image("file2.jpg"),
         ];
 
-        $fields = ['title' => null, 'content' => null, 'status' => null];
+        $fields = ['title' => null, 'content' => null, 'status' => null, 'author_name' => null];
         $attributes = array_intersect_key(Article::factory()->definition(), $fields);
         $attributes['image'] = $image;
         $attributes['files'] = $files;
@@ -49,7 +49,8 @@ class ArticleTest extends TestCase
 
         unset($attributes['image']);
         unset($attributes['files']);
-        $createdArticle = Article::where(['content' => $attributes['content'], 'title' => $attributes['title']])->first();
+        $createdArticle = Article::where(['content' => $attributes['content'], 'title' => $attributes['title']])->first(
+        );
         $this->assertNotNull($createdArticle);
         $this->assertNotNull($createdArticle->image);
         $this->assertNotNull($createdArticle->files);
@@ -79,7 +80,7 @@ class ArticleTest extends TestCase
             UploadedFile::fake()->image("file2.jpg"),
         ];
 
-        $fields = ['title' => null, 'content' => null, 'status' => null];
+        $fields = ['title' => null, 'content' => null, 'status' => null, 'author_name' => null];
         $attributes = array_intersect_key(Article::factory()->definition(), $fields);
         $attributes['image'] = $image;
         $attributes['files'] = $files;

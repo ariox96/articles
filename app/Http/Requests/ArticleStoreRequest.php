@@ -26,6 +26,7 @@ class ArticleStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:10|max:191',
+            'author_name' => 'required|string|min:3',
             'content' => 'required|string|min:3',
             'status' => [new Enum(ArticleStatusEnum::class)],
             'image' => 'file|max:5120|mimes:jpeg,png,jpg|nullable',

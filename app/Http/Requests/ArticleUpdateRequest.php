@@ -26,6 +26,7 @@ class ArticleUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required|integer|min:1',
+            'author_name' => 'required|string|min:3',
             'title' => 'required|string|min:10|max:191',
             'content' => 'required|string|min:3',
             'status' => [new Enum(ArticleStatusEnum::class)],

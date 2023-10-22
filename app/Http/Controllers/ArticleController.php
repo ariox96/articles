@@ -61,6 +61,7 @@ class ArticleController extends Controller
         $article['title'] = $request['title'];
         $article['content'] = $request['content'];
         $article['status'] = $request['status'];
+        $article['author_name'] = $request['author_name'];
         if ($request['status'] == ArticleStatusEnum::STATUS_PUBLISHED->value) {
             $article['published_at'] = now();
         }
@@ -109,6 +110,7 @@ class ArticleController extends Controller
         $article['title'] = $request['title'];
         $article['content'] = $request['content'];
         $article['status'] = $request['status'];
+        $article['author_name'] = $request['author_name'];
         if ($request['status'] == ArticleStatusEnum::STATUS_PUBLISHED->value) {
             $article['published_at'] = now();
         }

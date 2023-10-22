@@ -18,7 +18,7 @@ class MainController extends Controller
      */
     public function index(): \Illuminate\Contracts\View\View|Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $articles = Article::published()->with('user')->paginate(8);
+        $articles = Article::query()->orderBy('published_at','desc')->published()->with('user')->paginate(8);
         return view('index', compact('articles'));
     }
 }

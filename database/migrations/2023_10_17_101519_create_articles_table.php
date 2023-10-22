@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('image_id')->nullable();
             $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
             $table->tinyInteger('status');
+            $table->string('author_name', 191);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -53,6 +53,13 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="authorName" class="col-sm-2 control-label">                   {{ __("Author name") }}
+                </label>
+                <input type="text" value="{{auth()->user()->name}}" name="author_name" class="form-control" id="authorName" placeholder="Enter title"
+                       required>
+            </div>
+
             <button type="submit" class="btn btn-info">Submit</button>
 
         </form>

@@ -21,7 +21,7 @@ class Article extends Model
     protected $with = ['image'];
     public $timestamps = true;
 
-    protected $fillable = ['user_id', 'slug', 'title', 'content', 'status', 'image_id', 'published_at'];
+    protected $fillable = ['user_id', 'slug', 'title', 'content','author_name', 'status', 'image_id', 'published_at'];
 
 
     /**

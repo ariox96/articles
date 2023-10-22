@@ -16,9 +16,22 @@ class ArticleTest extends TestCase
      */
     public function test_articles_table_has_expected_columns(): void
     {
-        $this->assertTrue(Schema::hasColumns('articles', [
-            'id', 'user_id', 'slug', 'title', 'content', 'image_id', 'status', 'published_at', 'updated_at', 'deleted_at', 'created_at'
-        ]));
+        $this->assertTrue(
+            Schema::hasColumns('articles', [
+                'id',
+                'user_id',
+                'slug',
+                'title',
+                'content',
+                'image_id',
+                'status',
+                'author_name',
+                'published_at',
+                'updated_at',
+                'deleted_at',
+                'created_at'
+            ])
+        );
     }
 
 
