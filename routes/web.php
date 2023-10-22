@@ -23,7 +23,8 @@ Route::get('registration', [AuthController::class, 'registration'])->name('regis
 Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->resource('article', ArticleController::class);
+Route::middleware('auth')->resource('article', ArticleController::class)->except('show');
+Route::get('article/{article}', [ArticleController::class,'show'])->name('article.show');
 
 
 Route::middleware('auth')->resource('file', FileController::class)->only(['destroy']);
