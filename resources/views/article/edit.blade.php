@@ -15,8 +15,8 @@
               class="form-horizontal"
               enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="_method" value="put" />
-            <input type="hidden" name="id" value="{{$article->id}}" />
+            <input type="hidden" name="_method" value="put"/>
+            <input type="hidden" name="id" value="{{$article->id}}"/>
 
             <div class="row my-row" style="width: 200px">
                 <img style="width: 100%" src="/{{$article->image?->path ?? 'ArticleDefault.jpg'}}"
@@ -50,15 +50,24 @@
 
             <div class="form-group">
                 <div class="form-check">
-                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_DRAFT}}" class="form-check-input" type="radio"
+                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_DRAFT}}"
+                           @if($article->status ==\App\Enums\ArticleStatusEnum::STATUS_DRAFT->value)
+                               checked
+                           @endif
+                           class="form-check-input"
+                           type="radio"
                            name="status" id="flexRadioDefault1">
                     <label class="form-check-label" for="flexRadioDefault1">
                         Draft
                     </label>
                 </div>
                 <div class="form-check">
-                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_PUBLISHED}}" class="form-check-input"
-                           type="radio" name="status" id="flexRadioDefault2" checked>
+                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_PUBLISHED}}"
+                           @if($article->status ==\App\Enums\ArticleStatusEnum::STATUS_PUBLISHED->value)
+                               checked
+                           @endif
+                           class="form-check-input"
+                           type="radio" name="status" id="flexRadioDefault2">
                     <label class="form-check-label" for="flexRadioDefault2">
                         Publish
                     </label>
@@ -68,7 +77,8 @@
             <div class="form-group">
                 <label for="authorName" class="col-sm-2 control-label">                   {{ __("Author name") }}
                 </label>
-                <input type="text" value="{{auth()->user()->name}}" name="author_name" class="form-control" id="authorName" placeholder="Enter title"
+                <input type="text" value="{{$article->author_name}}" name="author_name" class="form-control"
+                       id="authorName" placeholder="Enter title"
                        required>
             </div>
             @if($article->files->toArray())
