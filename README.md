@@ -33,8 +33,12 @@ Before you get started, ensure you have the following tools installed on your sy
    ```bash
     docker exec -it articles-app php artisan migrate:fresh --seed
 
+7. **Run Generate Key**
+   ```bash
+    docker exec -it articles-app php artisan key:generate
+
 ## Running Tests
-7. **To ensure the system is working correctly, run tests using this command:**
+8. **To ensure the system is working correctly, run tests using this command:**
    ```bash
     docker exec -it articles-app php artisan test
 
