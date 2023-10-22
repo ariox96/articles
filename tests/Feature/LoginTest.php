@@ -19,7 +19,7 @@ class LoginTest extends TestCase
         $this->post('/post-registration', $user);
         unset($user['name']);
         $response = $this->post('/post-login', $user);
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect(route('article.index'));
         $this->assertAuthenticated();
     }
 

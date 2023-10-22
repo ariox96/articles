@@ -19,7 +19,7 @@ class RegisterTest extends TestCase
         ];
 
         $response = $this->post('/post-registration', $user);
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect(route('article.index'));
         unset($user['password']);
         $this->assertDatabaseHas('users', $user);
     }

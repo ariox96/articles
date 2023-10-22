@@ -42,7 +42,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
+            return redirect()->intended(route('article.index'))
                 ->withSuccess('You have Successfully loggedin');
         }
 
@@ -58,20 +58,9 @@ class AuthController extends Controller
     {
         $data = $request->all();
         $this->create($data);
-        return redirect("dashboard")->withSuccess('Great! You have Successfully loggedin');
+        return redirect(route('article.index'))->withSuccess('Great! You have Successfully loggedin');
     }
 
-
-    /**
-     * @return Application|View|Factory|\Illuminate\Contracts\Foundation\Application|RedirectResponse
-     */
-    public function dashboard(): Application|View|Factory|\Illuminate\Contracts\Foundation\Application|RedirectResponse
-    {
-        if (Auth::check()) {
-            return view('dashboard');
-        }
-        return redirect("login")->withSuccess('Opps! You do not have access');
-    }
 
 
     /**
