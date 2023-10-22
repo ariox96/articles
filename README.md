@@ -33,6 +33,13 @@ Before you get started, ensure you have the following tools installed on your sy
    ```bash
     docker exec -it articles-app php artisan migrate:fresh --seed
 
+## Running Tests
+To ensure the system is working correctly, run tests using this command:
+   ```bash
+    docker exec -it articles-app php artisan test
+
+
+
 ## Usage
 
  **Access the article management system through your web browser by visiting**:
