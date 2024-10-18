@@ -71,9 +71,7 @@
                             window.location.reload();
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            console.log("jqXHR:" + jqXHR);
-                            console.log("TestStatus: " + textStatus);
-                            console.log("ErrorThrown: " + errorThrown);
+                            alert(textStatus + ": " + jqXHR.status + " " + errorThrown);
                         }
                     });
                 } else {

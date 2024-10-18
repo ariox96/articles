@@ -149,14 +149,9 @@ class ArticleController extends Controller
 
         $result = $destroyArticleAction($article);
 
-        if (! $result) {
-            return response()->json([
-                'status' => false,
-            ], 400);
-        }
-
         return response()->json([
-            'status' => true,
-        ], 202);
+            'status' => $result,
+        ], $result ? 202 : 400);
+
     }
 }
