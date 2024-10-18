@@ -41,8 +41,8 @@ class Article extends Model
     protected $casts = [
         'status' => ArticleStatusEnum::class,
     ];
-    public $timestamps = true;
 
+    public $timestamps = true;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -80,17 +80,17 @@ class Article extends Model
     {
 
         return Article::query()
-            ->select('slug','title','author_name','status')
+            ->select('slug', 'title', 'author_name', 'status')
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->paginate(8);
     }
 
-    public static  function getPublishedArticles(): LengthAwarePaginator
+    public static function getPublishedArticles(): LengthAwarePaginator
     {
 
         return Article::query()
-            ->select('slug','title','author_name','status')
+            ->select('slug', 'title', 'author_name', 'status')
             ->orderBy('published_at', 'desc')
             ->published()
             ->with('user')
@@ -99,9 +99,6 @@ class Article extends Model
 
     /**
      * Scope a query to only include published articles.
-     *
-     * @param Builder $query
-     * @return Builder
      */
     public function scopePublished(Builder $query): Builder
     {

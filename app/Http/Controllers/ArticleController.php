@@ -9,8 +9,6 @@ use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -21,6 +19,7 @@ class ArticleController extends Controller
     public function index(getUserArticlesAction $getUserArticlesAction): View
     {
         $articles = $getUserArticlesAction(Auth::id());
+
         return view('article.index', compact('articles'));
     }
 

@@ -31,12 +31,11 @@ class AuthController extends Controller
         return redirect('login')
             ->withError('Oppes! You have entered invalid credentials');
     }
+
     public function showRegistrationForm(): View
     {
         return view('auth.registration');
     }
-
-
 
     public function register(PostRegistrationRequest $request): mixed
     {
@@ -51,10 +50,10 @@ class AuthController extends Controller
     {
         return User::query()
             ->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
     }
 
     public function logout(): RedirectResponse
