@@ -93,7 +93,6 @@ class Article extends Model
             ->select('slug', 'title', 'author_name', 'status')
             ->orderBy('published_at', 'desc')
             ->published()
-            ->with('user')
             ->paginate(8);
     }
 
