@@ -22,7 +22,7 @@
                                     </p>
                                     <p class="card-text"><small class="text-muted">{{$article->author_name}}</small></p>
                                     <p class="card-text"><small
-                                            class="text-muted">{{\App\Enums\ArticleStatusEnum::getName($article->status)}}</small>
+                                            class="text-muted">{{$article->status->label()}}</small>
                                     </p>
 
                                 </div>
