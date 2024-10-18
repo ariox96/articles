@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -73,6 +74,16 @@ class Article extends Model
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public static function getLatestUserArticles(int $userId): LengthAwarePaginator
+    {
+
+        return Article::query()
+            ->select('slug','title','author_name','status')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(8);
     }
 
     /**

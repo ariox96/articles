@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\getUserArticlesAction;
 use App\Enums\ArticleStatusEnum;
 use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Requests\ArticleUpdateRequest;
@@ -17,13 +18,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
-    public function index(): View
+    public function index(getUserArticlesAction $getUserArticlesAction): View
     {
-        $articles = Article::query()
-            ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->paginate(8);
-
+        $articles = $getUserArticlesAction(Auth::id());
         return view('article.index', compact('articles'));
     }
 
