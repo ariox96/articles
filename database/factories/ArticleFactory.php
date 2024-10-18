@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Enums\ArticleStatusEnum;
-use App\Models\Article;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,16 +20,17 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         $user = User::query()->inRandomOrder()->first();
-        if (!$user) {
+        if (! $user) {
             $user = User::factory()->create();
         }
 
         $image = Image::query()->inRandomOrder()->first();
-        if (!$image) {
+        if (! $image) {
             $image = Image::factory()->create();
         }
 
         $array = array_column(ArticleStatusEnum::cases(), 'value');
+
         return [
             'user_id' => $user->id,
             'slug' => fake()->unique()->slug,

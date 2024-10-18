@@ -4,66 +4,72 @@ namespace App\Models;
 
 use App\Enums\ArticleStatusEnum;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
+/**
+ * @property positive-int $id
+ * @property positive-int $user_id
+ * @property string $slug
+ * @property string $title
+ * @property string $content
+ * @property string $author_name
+ * @property ArticleStatusEnum $status
+ * @property positive-int|null $image_id
+ * @property Carbon|null $published_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Image|null $image
+ * @property Collection<File> $files
+ * @property User $user
+ *
+ * @method published()
+ */
 class Article extends Model
 {
-    use SoftDeletes;
     use HasFactory;
     use Sluggable;
+    use SoftDeletes;
 
-    protected $with = ['image'];
+    protected $casts = [
+        'status' => ArticleStatusEnum::class,
+    ];
     public $timestamps = true;
-
-    protected $fillable = ['user_id', 'slug', 'title', 'content','author_name', 'status', 'image_id', 'published_at'];
 
 
     /**
      * Return the sluggable configuration array for this model.
-     *
-     * @return array
      */
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'title'
-            ]
+                'source' => 'title',
+            ],
         ];
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function image(): BelongsTo
     {
         return $this->belongsTo(Image::class);
     }
 
-    /**
-     * @return string
-     */
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
-    /**
-     * @return HasMany
-     */
+
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
@@ -72,11 +78,11 @@ class Article extends Model
     /**
      * Scope a query to only include published articles.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopePublished($query)
+    public function scopePublished(Builder $query): Builder
     {
-        return $query->where('status', ArticleStatusEnum::STATUS_PUBLISHED);
+        return $query->where('status', ArticleStatusEnum::PUBLISHED);
     }
 }

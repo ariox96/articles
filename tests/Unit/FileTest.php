@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Models\Article;
 use App\Models\File;
-use App\Models\Image;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
@@ -16,10 +15,9 @@ class FileTest extends TestCase
     public function test_files_table_has_expected_columns(): void
     {
         $this->assertTrue(Schema::hasColumns('files', [
-            'id', 'path', 'article_id', 'created_at', 'updated_at'
+            'id', 'path', 'article_id', 'created_at', 'updated_at',
         ]));
     }
-
 
     /**
      * @return void

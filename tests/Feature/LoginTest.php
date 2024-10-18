@@ -23,7 +23,6 @@ class LoginTest extends TestCase
         $this->assertAuthenticated();
     }
 
-
     /**
      * @return void
      */

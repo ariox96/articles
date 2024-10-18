@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\Article;
-use App\Models\File;
 use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
@@ -16,10 +15,9 @@ class UserTest extends TestCase
     public function test_users_table_has_expected_columns(): void
     {
         $this->assertTrue(Schema::hasColumns('users', [
-            'id', 'name', 'email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at'
+            'id', 'name', 'email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at',
         ]), 1);
     }
-
 
     /**
      * @return void

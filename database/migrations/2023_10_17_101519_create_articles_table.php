@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Image;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -12,15 +15,13 @@ return new class extends Migration {
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('slug', 191)->unique();
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Image::class)->nullable();
+            $table->string('slug')->unique();
             $table->string('title');
             $table->longText('content');
-            $table->unsignedBigInteger('image_id')->nullable();
-            $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
             $table->tinyInteger('status');
-            $table->string('author_name', 191);
+            $table->string('author_name');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

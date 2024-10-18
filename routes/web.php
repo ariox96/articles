@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,15 +16,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [MainController::class, 'index'])->name('index');
-Route::get('login', [AuthController::class, 'index'])->name('login');
-Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post');
-Route::get('registration', [AuthController::class, 'registration'])->name('register');
-Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
+Route::get('/', MainController::class)->name('index');
+
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
+Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [AuthController::class, 'register']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->resource('article', ArticleController::class)->except('show');
-Route::get('article/{article}', [ArticleController::class,'show'])->name('article.show');
+Route::middleware('auth')
+    ->resource('article', ArticleController::class)
+    ->except('show');
 
+Route::get('article/{article}', [ArticleController::class, 'show'])->name('article.show');
 
 Route::middleware('auth')->resource('file', FileController::class)->only(['destroy']);

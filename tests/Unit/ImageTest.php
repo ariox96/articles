@@ -15,10 +15,9 @@ class ImageTest extends TestCase
     public function test_images_table_has_expected_columns(): void
     {
         $this->assertTrue(Schema::hasColumns('images', [
-            'id', 'path', 'created_at', 'updated_at'
+            'id', 'path', 'created_at', 'updated_at',
         ]));
     }
-
 
     /**
      * @return void
@@ -31,5 +30,4 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Article::class, $imageArticle);
         $this->assertEquals($article->id, $imageArticle->id);
     }
-
 }

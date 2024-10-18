@@ -14,9 +14,6 @@ class File extends Model
 
     protected $fillable = ['path', 'article_id'];
 
-    /**
-     * @return BelongsTo
-     */
     public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class);

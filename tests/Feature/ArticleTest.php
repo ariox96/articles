@@ -3,10 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Article;
-use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ArticleTest extends TestCase
@@ -30,10 +28,10 @@ class ArticleTest extends TestCase
     public function test_user_can_store_an_article()
     {
         $user = User::factory()->create();
-        $image = UploadedFile::fake()->image("articleTestImage.jpg");
+        $image = UploadedFile::fake()->image('articleTestImage.jpg');
         $files = [
-            UploadedFile::fake()->image("file1.jpg"),
-            UploadedFile::fake()->image("file2.jpg"),
+            UploadedFile::fake()->image('file1.jpg'),
+            UploadedFile::fake()->image('file2.jpg'),
         ];
 
         $fields = ['title' => null, 'content' => null, 'status' => null, 'author_name' => null];
@@ -68,16 +66,15 @@ class ArticleTest extends TestCase
         $this->assertAuthenticated();
     }
 
-
     public function test_user_can_update_an_article()
     {
         $user = User::factory()->create();
         $article = Article::factory()->create(['user_id' => $user->id]);
 
-        $image = UploadedFile::fake()->image("articleTestImage.jpg");
+        $image = UploadedFile::fake()->image('articleTestImage.jpg');
         $files = [
-            UploadedFile::fake()->image("file1.jpg"),
-            UploadedFile::fake()->image("file2.jpg"),
+            UploadedFile::fake()->image('file1.jpg'),
+            UploadedFile::fake()->image('file2.jpg'),
         ];
 
         $fields = ['title' => null, 'content' => null, 'status' => null, 'author_name' => null];

@@ -4,86 +4,64 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostLoginRequest;
 use App\Http\Requests\PostRegistrationRequest;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
-    /**
-     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-     */
-    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function showLoginForm(): View
     {
         return view('auth.login');
     }
 
+    public function login(PostLoginRequest $request): mixed
+    {
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()
+                ->intended(route('article.index'))
+                ->withSuccess('You have Successfully logged');
+        }
 
-    /**
-     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-     */
-    public function registration(): View|\Illuminate\Foundation\Application|Factory|\Illuminate\Contracts\Foundation\Application
+        return redirect('login')
+            ->withSuccess('Oppes! You have entered invalid credentials');
+    }
+    public function showRegistrationForm(): View
     {
         return view('auth.registration');
     }
 
 
-    /**
-     * @param PostLoginRequest $request
-     * @return mixed
-     */
-    public function postLogin(PostLoginRequest $request): mixed
-    {
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('article.index'))
-                ->withSuccess('You have Successfully loggedin');
-        }
 
-        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
-    }
-
-
-    /**
-     * @param PostRegistrationRequest $request
-     * @return mixed
-     */
-    public function postRegistration(PostRegistrationRequest $request): mixed
+    public function register(PostRegistrationRequest $request): mixed
     {
         $data = $request->all();
         $this->create($data);
-        return redirect(route('article.index'))->withSuccess('Great! You have Successfully loggedin');
+
+        return redirect(route('article.index'))
+            ->withSuccess('Great! You have Successfully loggedin');
     }
 
-
-
-    /**
-     * @param array $data
-     * @return mixed
-     */
-    public function create(array $data): mixed
+    public function create(array $data): Model
     {
-        return User::create([
+        return User::query()
+            ->create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
         ]);
     }
 
-
-    /**
-     * @return Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
-     */
-    public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function logout(): RedirectResponse
     {
         Session::flush();
         Auth::logout();
+
         return Redirect('login');
     }
 }

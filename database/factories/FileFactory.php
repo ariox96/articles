@@ -18,9 +18,10 @@ class FileFactory extends Factory
     public function definition(): array
     {
         $article = Article::query()->inRandomOrder()->first();
-        if (!$article) {
+        if (! $article) {
             $article = Article::factory()->create();
         }
+
         return [
             'path' => fake()->imageUrl,
             'article_id' => $article->id,

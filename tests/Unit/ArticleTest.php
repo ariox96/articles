@@ -29,11 +29,10 @@ class ArticleTest extends TestCase
                 'published_at',
                 'updated_at',
                 'deleted_at',
-                'created_at'
+                'created_at',
             ])
         );
     }
-
 
     /**
      * @return void
