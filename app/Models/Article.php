@@ -86,6 +86,17 @@ class Article extends Model
             ->paginate(8);
     }
 
+    public static  function getPublishedArticles(): LengthAwarePaginator
+    {
+
+        return Article::query()
+            ->select('slug','title','author_name','status')
+            ->orderBy('published_at', 'desc')
+            ->published()
+            ->with('user')
+            ->paginate(8);
+    }
+
     /**
      * Scope a query to only include published articles.
      *
