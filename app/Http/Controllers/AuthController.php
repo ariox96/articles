@@ -29,7 +29,7 @@ class AuthController extends Controller
         }
 
         return redirect('login')
-            ->withSuccess('Oppes! You have entered invalid credentials');
+            ->withError('Oppes! You have entered invalid credentials');
     }
     public function showRegistrationForm(): View
     {

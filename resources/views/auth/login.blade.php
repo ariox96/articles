@@ -28,6 +28,10 @@
                                         @if ($errors->has('password'))
                                             <span class="text-danger">{{ $errors->first('password') }}</span>
                                         @endif
+                                        @if(session('error'))
+                                            <span class="text-danger">{{ session('error') }}</span>
+
+                                        @endif
                                     </div>
                                 </div>
 
