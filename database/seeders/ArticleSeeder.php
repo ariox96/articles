@@ -13,9 +13,6 @@ class ArticleSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        Article::truncate();
         Article::factory(50)->create();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
