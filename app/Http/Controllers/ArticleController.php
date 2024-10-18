@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\DestroyArticleAction;
 use App\Actions\getUserArticlesAction;
 use App\Enums\ArticleStatusEnum;
 use App\Http\Requests\ArticleStoreRequest;
@@ -140,12 +141,19 @@ class ArticleController extends Controller
         return view('article.edit', compact('article'));
     }
 
-    public function destroy(Article $article): JsonResponse
+    public function destroy(Article $article, DestroyArticleAction $destroyArticleAction): JsonResponse
     {
         if ($article->user_id != Auth::id()) {
             abort(404);
         }
-        $article->delete();
+
+        $result = $destroyArticleAction($article);
+
+        if (! $result) {
+            return response()->json([
+                'status' => false,
+            ], 400);
+        }
 
         return response()->json([
             'status' => true,

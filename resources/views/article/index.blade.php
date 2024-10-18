@@ -31,8 +31,8 @@
                         <div class="m-2">
                             <a class="btn btn-success" href="{{route('article.edit',$article->slug)}}" target="_blank"
                                role="button">Edit</a>
-                            <button id="deleteArticle" articleSlug="{{$article->slug}}" type="button"
-                                    class="btn btn-danger">Delete
+                            <button  articleSlug="{{$article->slug}}" type="button"
+                                    class="btn btn-danger deleteArticle">Delete
                             </button>
                         </div>
 
@@ -55,7 +55,7 @@
 @section('script')
     <script>
         $(document).ready(function () {
-            $('#deleteArticle').on('click', function () {
+            $('.deleteArticle').on('click', function () {
                 var articleSlug = $(this).attr('articleSlug');
                 var routeUrl = '{{ route("article.destroy", ":articleSlug") }}';
                 routeUrl = routeUrl.replace(':articleSlug', articleSlug);
