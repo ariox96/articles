@@ -42,6 +42,16 @@ class Article extends Model
         'status' => ArticleStatusEnum::class,
     ];
 
+    protected $fillable = [
+        'title',
+        'user_id',
+        'content',
+        'author_name',
+        'status',
+        'image_id',
+        'published_at',
+    ];
+
     public $timestamps = true;
 
     /**
@@ -80,8 +90,11 @@ class Article extends Model
     {
 
         return Article::query()
-            ->select('slug', 'title', 'author_name', 'status')
+            ->select('slug', 'title', 'author_name', 'status', 'image_id')
             ->where('user_id', $userId)
+            ->with('image', function (BelongsTo $query) {
+                $query->select('path');
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(8);
     }
