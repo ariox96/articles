@@ -7,7 +7,8 @@ use App\Actions\getUserArticlesAction;
 use App\Enums\ArticleStatusEnum;
 use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Requests\ArticleUpdateRequest;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\EditArticleResource;
+use App\Http\Resources\ShowArticleResource;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
@@ -73,7 +74,7 @@ class ArticleController extends Controller
     public function update(ArticleUpdateRequest $request): RedirectResponse
     {
         $articleItem = Article::query()->find($request->id);
-        if (! $articleItem || $articleItem?->user_id != Auth::id()) {
+        if (!$articleItem || $articleItem?->user_id != Auth::id()) {
             abort(404);
         }
 
@@ -120,7 +121,7 @@ class ArticleController extends Controller
         $id = Auth::id();
         $uniqid = uniqid();
         $path = "articleFiles/{$id}/$folderName";
-        $fullPath = $path."/{$uniqid}.{$request->extension()}";
+        $fullPath = $path . "/{$uniqid}.{$request->extension()}";
         $request->move(public_path($path), "{$uniqid}.{$request->extension()}");
 
         return $fullPath;
@@ -129,8 +130,7 @@ class ArticleController extends Controller
     public function show(Article $article): View
     {
         $article->load('files', 'image');
-        $article = (new ArticleResource($article))->toArray();
-
+        $article = (new ShowArticleResource($article))->toArray();
         return view('article.show', compact('article'));
     }
 
@@ -139,6 +139,7 @@ class ArticleController extends Controller
         if ($article->user_id != Auth::id()) {
             abort(404);
         }
+        $article = (new EditArticleResource($article))->toArray();
 
         return view('article.edit', compact('article'));
     }

@@ -3,11 +3,10 @@
 namespace App\Http\Resources;
 
 use App\Models\Article;
-use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ArticleResource extends JsonResource
+class EditArticleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,7 +18,9 @@ class ArticleResource extends JsonResource
         /** @var Article $this */
 
         return [
+            'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'content' => $this->content,
             'status' => $this->status,
             'author_name' => $this->author_name, // Assuming 'author' is a relationship
@@ -27,6 +28,7 @@ class ArticleResource extends JsonResource
             'files' => $this->files->map(function ($file) {
                 return [
                     'path' => $file->path,  // Assuming 'path' is a field in 'files'
+                    'id' => $file->id,  // Assuming 'path' is a field in 'files'
                 ];
             }),
             'image' => [

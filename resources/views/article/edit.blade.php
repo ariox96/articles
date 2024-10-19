@@ -11,22 +11,22 @@
         </div>
     @endif
     <div class="container mb-5">
-        <form action="{{route('article.update',$article->slug)}}" method="post" id="createForm" role="form"
+        <form action="{{route('article.update',$article['slug'])}}" method="post" id="createForm" role="form"
               class="form-horizontal"
               enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" value="put"/>
-            <input type="hidden" name="id" value="{{$article->id}}"/>
+            <input type="hidden" name="id" value="{{$article['id']}}"/>
 
             <div class="row my-row" style="width: 200px">
-                <img style="width: 100%" src="/{{$article->image?->path ?? 'ArticleDefault.jpg'}}"
+                <img style="width: 100%" src="/{{$article['image'] ? $article['image']['path'] : 'ArticleDefault.jpg'}}"
                      class="img-rounded img-responsive center-block" alt="Image of Hypatia">
             </div>
             <div class="form-group">
                 <label for="articleTitle" class="col-sm-2 control-label">
                     {{ __("Title") }}
                 </label>
-                <input type="text" name="title" value="{{$article->title}}" class="form-control" id="articleTitle"
+                <input type="text" name="title" value="{{$article['title']}}" class="form-control" id="articleTitle"
                        placeholder="Enter title"
                        required>
             </div>
@@ -35,7 +35,7 @@
                     {{ __("Content") }}
                 </label>
                 <textarea name="content" id="mytextarea" class="create-textarea" required>
-                    {!! $article->content !!}
+                    {!! $article['content'] !!}
                 </textarea>
             </div>
             <div class="form-group">
@@ -51,7 +51,7 @@
             <div class="form-group">
                 <div class="form-check">
                     <input value="{{\App\Enums\ArticleStatusEnum::DRAFT}}"
-                           @if($article->status ==\App\Enums\ArticleStatusEnum::DRAFT)
+                           @if($article['status'] ==\App\Enums\ArticleStatusEnum::DRAFT)
                                checked
                            @endif
                            class="form-check-input"
@@ -63,7 +63,7 @@
                 </div>
                 <div class="form-check">
                     <input value="{{\App\Enums\ArticleStatusEnum::PUBLISHED}}"
-                           @if($article->status ==\App\Enums\ArticleStatusEnum::PUBLISHED)
+                           @if($article['status'] ==\App\Enums\ArticleStatusEnum::PUBLISHED)
                                checked
                            @endif
                            class="form-check-input"
@@ -78,16 +78,16 @@
                 <label for="authorName" class="col-sm-2 control-label">
                     {{ __("Author name") }}
                 </label>
-                <input type="text" value="{{$article->author_name}}" name="author_name" class="form-control"
+                <input type="text" value="{{$article['author_name']}}" name="author_name" class="form-control"
                        id="authorName" placeholder="Enter title"
                        required>
             </div>
-            @if($article->files->toArray())
+            @if($article['files'])
                 <h2>Files</h2>
-                @foreach($article->files as $key => $file)
+                @foreach($article['files'] as $key => $file)
                     <div class="fileItem">
-                        <a href="/{{$file->path}}" target="_blank"> {{$key}} file </a>
-                        <i class="delete-file" id="deleteFile" fileId="{{$file->id}}">X</i>
+                        <a href="/{{$file['path']}}" target="_blank"> {{$key}} file </a>
+                        <i class="delete-file" id="deleteFile" fileId="{{$file['id']}}">X</i>
                         <br/>
                     </div>
                 @endforeach
