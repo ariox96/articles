@@ -38,14 +38,14 @@
 
             <div class="form-group">
                 <div class="form-check">
-                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_DRAFT}}" class="form-check-input" type="radio"
+                    <input value="{{\App\Enums\ArticleStatusEnum::DRAFT}}" class="form-check-input" type="radio"
                            name="status" id="flexRadioDefault1">
                     <label class="form-check-label" for="flexRadioDefault1">
                         Draft
                     </label>
                 </div>
                 <div class="form-check">
-                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_PUBLISHED}}" class="form-check-input"
+                    <input value="{{\App\Enums\ArticleStatusEnum::PUBLISHED}}" class="form-check-input"
                            type="radio" name="status" id="flexRadioDefault2" checked>
                     <label class="form-check-label" for="flexRadioDefault2">
                         Publish

@@ -19,7 +19,7 @@
             <input type="hidden" name="id" value="{{$article['id']}}"/>
 
             <div class="row my-row" style="width: 200px">
-                <img style="width: 100%" src="/{{$article['image'] ? $article['image']['path'] : 'ArticleDefault.jpg'}}"
+                <img style="width: 100%" src="{{$article['image']['path'] ?? '/ArticleDefault.jpg'}}"
                      class="img-rounded img-responsive center-block" alt="Image of Hypatia">
             </div>
             <div class="form-group">

@@ -8,9 +8,8 @@
             <div class="jumbotron">
                 <h1 class="text-primary text-center">{{$article['title']}}</h1>
                 <div class="row my-row">
-
                     <img style="max-width: 100%"
-                         src="/{{$article['image'] ? $article['image']['path'] : 'ArticleDefault.jpg'}}"
+                         src="{{$article['image']['path'] ??'/ArticleDefault.jpg'}}"
                          class="img-rounded img-responsive center-block" alt="Image of Hypatia">
                 </div>
 
