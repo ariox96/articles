@@ -30,7 +30,7 @@ class ShowArticleResource extends JsonResource
                 ];
             }),
             'image' => [
-                'path' => $this->image->path,  // Assuming 'image' is a relationship or attribute
+                'path' => $this->image?->path,  // Assuming 'image' is a relationship or attribute
             ],
         ];
     }
