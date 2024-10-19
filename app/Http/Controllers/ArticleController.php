@@ -12,6 +12,7 @@ use App\Http\Resources\ShowArticleResource;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -74,7 +75,7 @@ class ArticleController extends Controller
     public function update(ArticleUpdateRequest $request): RedirectResponse
     {
         $articleItem = Article::query()->find($request->id);
-        if (!$articleItem || $articleItem?->user_id != Auth::id()) {
+        if (! $articleItem || $articleItem?->user_id != Auth::id()) {
             abort(404);
         }
 
@@ -121,7 +122,7 @@ class ArticleController extends Controller
         $id = Auth::id();
         $uniqid = uniqid();
         $path = "articleFiles/{$id}/$folderName";
-        $fullPath = $path . "/{$uniqid}.{$request->extension()}";
+        $fullPath = $path."/{$uniqid}.{$request->extension()}";
         $request->move(public_path($path), "{$uniqid}.{$request->extension()}");
 
         return $fullPath;
@@ -131,25 +132,27 @@ class ArticleController extends Controller
     {
         $article->load('files', 'image');
         $article = (new ShowArticleResource($article))->toArray();
+
         return view('article.show', compact('article'));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(Article $article): View
     {
-        if ($article->user_id != Auth::id()) {
-            abort(404);
-        }
+        $this->authorize('edit', $article);
         $article = (new EditArticleResource($article))->toArray();
 
         return view('article.edit', compact('article'));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Article $article, DestroyArticleAction $destroyArticleAction): JsonResponse
     {
-        if ($article->user_id != Auth::id()) {
-            abort(404);
-        }
-
+        $this->authorize('delete', $article);
         $result = $destroyArticleAction($article);
 
         return response()->json([
