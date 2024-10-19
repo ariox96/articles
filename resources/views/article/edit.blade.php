@@ -50,8 +50,8 @@
 
             <div class="form-group">
                 <div class="form-check">
-                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_DRAFT}}"
-                           @if($article->status ==\App\Enums\ArticleStatusEnum::STATUS_DRAFT->value)
+                    <input value="{{\App\Enums\ArticleStatusEnum::DRAFT}}"
+                           @if($article->status ==\App\Enums\ArticleStatusEnum::DRAFT)
                                checked
                            @endif
                            class="form-check-input"
@@ -62,8 +62,8 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input value="{{\App\Enums\ArticleStatusEnum::STATUS_PUBLISHED}}"
-                           @if($article->status ==\App\Enums\ArticleStatusEnum::STATUS_PUBLISHED->value)
+                    <input value="{{\App\Enums\ArticleStatusEnum::PUBLISHED}}"
+                           @if($article->status ==\App\Enums\ArticleStatusEnum::PUBLISHED)
                                checked
                            @endif
                            class="form-check-input"
@@ -75,7 +75,8 @@
             </div>
 
             <div class="form-group">
-                <label for="authorName" class="col-sm-2 control-label">                   {{ __("Author name") }}
+                <label for="authorName" class="col-sm-2 control-label">
+                    {{ __("Author name") }}
                 </label>
                 <input type="text" value="{{$article->author_name}}" name="author_name" class="form-control"
                        id="authorName" placeholder="Enter title"

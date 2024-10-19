@@ -7,6 +7,7 @@ use App\Actions\getUserArticlesAction;
 use App\Enums\ArticleStatusEnum;
 use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Requests\ArticleUpdateRequest;
+use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
@@ -127,7 +128,8 @@ class ArticleController extends Controller
 
     public function show(Article $article): View
     {
-        $article->files;
+        $article->load('files', 'image');
+        $article = (new ArticleResource($article))->toArray();
 
         return view('article.show', compact('article'));
     }
