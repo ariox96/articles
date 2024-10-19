@@ -29,15 +29,13 @@ class ArticleFactory extends Factory
             $image = Image::factory()->create();
         }
 
-        $array = array_column(ArticleStatusEnum::cases(), 'value');
-
         return [
             'user_id' => $user->id,
             'slug' => fake()->unique()->slug,
             'title' => fake()->realText(50),
             'content' => fake()->realText(3000),
             'image_id' => $image->id,
-            'status' => $this->faker->randomElement($array),
+            'status' => array_rand(ArticleStatusEnum::options()),
             'author_name' => $user->name,
             'published_at' => now(),
             'created_at' => now(),
