@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\DestroyArticleAction;
 use App\Actions\getUserArticlesAction;
+use App\Actions\InsertArticleAction;
 use App\Enums\ArticleStatusEnum;
 use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Requests\ArticleUpdateRequest;
@@ -12,6 +13,7 @@ use App\Http\Resources\ShowArticleResource;
 use App\Models\Article;
 use App\Models\File;
 use App\Models\Image;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -32,44 +34,14 @@ class ArticleController extends Controller
         return view('article.create');
     }
 
-    public function store(ArticleStoreRequest $request): RedirectResponse
+    /**
+     * @throws Exception
+     */
+    public function store(ArticleStoreRequest $request, InsertArticleAction $insertArticleAction): RedirectResponse
     {
-        $image = null;
-        $files = [];
+        $slug = $insertArticleAction($request);
 
-        if ($request->hasFile('image')) {
-            $image = $this->saveFile($request->file('image'), 'image');
-        }
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                $files[] = $this->saveFile($file, 'files');
-            }
-        }
-        if ($image) {
-            $image = Image::query()->create(['path' => $image]);
-        }
-
-        $article['image_id'] = $image?->id;
-        $article['user_id'] = Auth::id();
-        $article['title'] = $request['title'];
-        $article['content'] = $request['content'];
-        $article['status'] = $request['status'];
-        $article['author_name'] = $request['author_name'];
-        if ($request['status'] == ArticleStatusEnum::PUBLISHED) {
-            $article['published_at'] = now();
-        }
-        $article = Article::query()->create($article);
-        foreach ($files as $key => $file) {
-            $files[$key] = [
-                'article_id' => $article->id,
-                'path' => $file,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-        File::query()->insert($files);
-
-        return redirect()->route('article.index');
+        return redirect()->route('article.show', $slug);
     }
 
     public function update(ArticleUpdateRequest $request): RedirectResponse
