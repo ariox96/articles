@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\getPublishedArticlesAction;
+use App\Actions\Article\getPublishedArticlesAction;
 use Illuminate\View\View;
 
 class MainController extends Controller

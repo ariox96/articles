@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Actions\File\FileAction;
+use App\DTOs\ArticleDTO;
 use App\Enums\ArticleStatusEnum;
+use App\Http\Requests\ArticleStoreRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property positive-int $id
@@ -103,7 +108,10 @@ class Article extends Model
     {
 
         return Article::query()
-            ->select('slug', 'title', 'author_name', 'status')
+            ->select('slug', 'title', 'author_name', 'status', 'image_id')
+            ->with('image', function (BelongsTo $query) {
+                $query->select('path', 'id');
+            })
             ->orderBy('published_at', 'desc')
             ->published()
             ->paginate(8);
@@ -115,5 +123,57 @@ class Article extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', ArticleStatusEnum::PUBLISHED);
+    }
+
+    public static function insertArticle(ArticleStoreRequest $request): string
+    {
+
+        $files = FileAction::insertFilesToStorage($request);
+        $image = FileAction::insertImageToStorage($request);
+        $articleDTO = self::createArticleDTO($request, $image);
+        $article = Article::query()->create((array) $articleDTO);
+        /** @var Article $article */
+        self::insertFiles($files, $article->id);
+
+        return $article->slug;
+
+    }
+
+    public static function updateArticle(ArticleUpdateRequest $request): string
+    {
+        $files = FileAction::insertFilesToStorage($request);
+        $image = FileAction::insertImageToStorage($request);
+
+        $articleDTO = self::createArticleDTO($request, $image);
+        Article::query()->where('id', $request->id)->update((array) $articleDTO);
+        $article = Article::query()
+            ->select('id', 'slug')
+            ->find($request->id);
+
+        self::insertFiles($files, $article->id);
+
+        return $article->slug;
+    }
+
+    private static function insertFiles($files, $articleId): void
+    {
+        if (! empty($files)) {
+            $fileData = collect($files)->map(fn ($file) => [
+                'article_id' => $articleId,
+                'path' => $file,
+            ])->toArray();
+            File::query()->insert($fileData);
+        }
+    }
+
+    private static function createArticleDTO(ArticleUpdateRequest|ArticleStoreRequest $request, ?Image $image): ArticleDTO
+    {
+        $request->merge([
+            'image_id' => $image?->id,
+            'user_id' => Auth::id(),
+            'published_at' => $request->status == ArticleStatusEnum::PUBLISHED->value ? now() : null,
+        ]);
+
+        return new ArticleDTO($request);
     }
 }

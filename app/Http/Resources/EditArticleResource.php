@@ -23,16 +23,16 @@ class EditArticleResource extends JsonResource
             'slug' => $this->slug,
             'content' => $this->content,
             'status' => $this->status,
-            'author_name' => $this->author_name, // Assuming 'author' is a relationship
+            'author_name' => $this->author_name,
             'published_at' => $this->published_at,
             'files' => $this->files->map(function ($file) {
                 return [
-                    'path' => $file->path,  // Assuming 'path' is a field in 'files'
-                    'id' => $file->id,  // Assuming 'path' is a field in 'files'
+                    'path' => $file->path,
+                    'id' => $file->id,
                 ];
             }),
             'image' => [
-                'path' => $this->image->path,  // Assuming 'image' is a relationship or attribute
+                'path' => $this->image?->path,
             ],
         ];
     }
