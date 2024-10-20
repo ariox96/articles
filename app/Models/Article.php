@@ -93,7 +93,7 @@ class Article extends Model
             ->select('slug', 'title', 'author_name', 'status', 'image_id')
             ->where('user_id', $userId)
             ->with('image', function (BelongsTo $query) {
-                $query->select('path');
+                $query->select('path', 'id');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(8);
